@@ -8,7 +8,7 @@ function plot_fitness_isocurves(mesh, features)
     volume_map = zeros(size(SZ));
     area_map = zeros(size(SZ));
 
-    default_params = [1.0, 1.0, 1.0, 0, 0, 0]; % neutral transform
+    default_params = [1.0, 1.0, 1.0, 0, 0, 0]; % A neutral transform
 
     for i = 1:numel(SZ)
         p = default_params;
