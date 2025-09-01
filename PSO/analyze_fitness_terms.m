@@ -5,25 +5,25 @@ function [area, inertia, symmetry, vol] = analyze_fitness_terms(transform, mesh,
     yaw   = deg2rad(transform(5));
     shear = transform(6);
 
-    % Apply transformations
+    % Applying transformations
     S = diag([scale, 1]);
     v = (S * [v, ones(size(v,1),1)]')';
     v(:,1) = v(:,1) + shear * v(:,3);
     v = (rotz(yaw) * roty(pitch) * v(:,1:3)')';
 
-    % Project to YZ-plane for area calc
+    % YZ-plane for area calculation
     yz = v(:,2:3);
     k = convhull(yz); 
     area = polyarea(yz(k,1), yz(k,2));
 
-    % Volume proxy
+    % Proxy for the volume
     vol = abs(scale(1) * scale(2) * scale(3));
 
-    % Inertia (approximated as trace of covariance)
+    % Inertia (approx. as trace of covariance)
     C = cov(v); 
     inertia = trace(C);
 
-    % Symmetry (compare mirrored halves)
+    % Symmetry
     y = v(:,2); 
     left  = v(y > 0, :); 
     right = v(y < 0, :); 
