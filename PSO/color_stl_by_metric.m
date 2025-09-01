@@ -14,7 +14,7 @@ function color_stl_by_metric(mesh, features, params, metric)
 
     switch metric
         case "area"
-            c = abs(z); % YZ-projection impact (height)
+            c = abs(z); % YZ-projection (height)
         case "inertia"
             c = x.^2 + y.^2;
         case "symmetry"
