@@ -19,7 +19,7 @@ function [best_transform, all_final_particles, positionHistory, pareto_log] = ps
     fitnessStdHistory = zeros(maxIters,1);
     gBestHistory = zeros(maxIters, 1);
 
-    % Initial evaluation
+    % Initial evaluations
     for i = 1:nParticles
         pBestScores(i) = fitness_function(positions(i,:), mesh, features);
     end
@@ -50,12 +50,12 @@ function [best_transform, all_final_particles, positionHistory, pareto_log] = ps
                 if scores(i) < gBestScore
                     gBest = pBest(i,:);
                     gBestScore = scores(i);
-                    stagnantCount = 0;  % reset
+                    stagnantCount = 0;  % reseting
                 end
             end
         end
 
-        % If stagnant too long → mutate gBest slightly
+        % If the stagnant is too long → mutate gBest
         if stagnantCount >= noImproveLimit
             fprintf("[Mutation] gBest stagnant. Injecting mutation.\n");
             mutation = 0.01 * (ub - lb) .* (rand(1,nVars) - 0.5);
@@ -63,14 +63,14 @@ function [best_transform, all_final_particles, positionHistory, pareto_log] = ps
             stagnantCount = 0;
         end
 
-        % Diversity tracking
+        % Tracking the diversity
         fitness_std = std(scores);
         fitnessStdHistory(iter) = fitness_std;
         gBestHistory(iter) = gBestScore;
         positionHistory(iter,:) = gBest;
         stagnantCount = stagnantCount + 1;
 
-        % Pareto logging
+        % Pareto
         [area, inertia, symmetry, ~] = analyze_fitness_terms(gBest, mesh, features);
         pareto_log(iter,:) = [area, inertia, symmetry];
 
@@ -80,7 +80,7 @@ function [best_transform, all_final_particles, positionHistory, pareto_log] = ps
                  50, 'filled'); hold on;
         drawnow;
 
-        % Stagnation rescue
+        % Stagnation fix
         if fitness_std < 1e-4
             warning('Low diversity detected. Injecting noise.');
             rand_idx = randperm(nParticles, floor(nParticles/2));
