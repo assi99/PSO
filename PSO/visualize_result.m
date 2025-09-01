@@ -1,5 +1,5 @@
 function visualize_result(mesh, params)
-    % Apply the best transformation to visualize geometry
+    % Applying the best transformation for visualizing the geometry
     v = mesh.vertices;
     scale = params(1:3);
     pitch = deg2rad(params(4));
@@ -10,7 +10,7 @@ function visualize_result(mesh, params)
     centroid = mean(v,1);
     v = v - centroid;
 
-    % Apply transformations
+    %  Transformations
     S = diag([scale, 1]);
     v = (S * [v, ones(size(v,1),1)]')';
 
@@ -22,7 +22,7 @@ function visualize_result(mesh, params)
     Rz = [cos(yaw), -sin(yaw), 0; sin(yaw), cos(yaw), 0; 0 0 1];
     v = (Rz * v')';
 
-    % Plot
+    % Ploting
     fig = figure(1); clf;
     set(fig, 'Name', 'Transformed STL Geometry', 'NumberTitle', 'off');
     movegui(fig, 'center');
