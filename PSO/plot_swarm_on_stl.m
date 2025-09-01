@@ -30,7 +30,7 @@ function plot_swarm_on_stl(mesh, features, particles)
         Rz = [cos(yaw), -sin(yaw), 0; sin(yaw), cos(yaw), 0; 0 0 1];
         v = (Rz * v')';
 
-        % Plot transparent shell
+        % Plot the transparent shell
         trisurf(base_faces, ...
             v(:,1)+centroid(1), v(:,2)+centroid(2), v(:,3)+centroid(3), ...
             'FaceAlpha', 0.05, 'EdgeColor', 'none', 'FaceColor', [0.2 0.4 1]);
